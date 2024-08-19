@@ -5,13 +5,27 @@ const {
   updateTask,
   deleteTask,
 } = require("../controller/taskController");
-const { authenticateToken } = require("../middlewares/authMiddleware");
-const { validateTask } = require("../models/task");
+const { authenticateToken } = require("../validation/authMiddleware");
+const {
+  validateTask,
+  updateTaskSchema,
+  taskValidationSchema,
+} = require("../validation/taskSchemas");
 const router = express.Router();
 
-router.post("/", authenticateToken, validateTask, createTask);
+router.post(
+  "/",
+  authenticateToken,
+  validateTask(taskValidationSchema),
+  createTask
+);
 router.get("/", authenticateToken, getTasks);
-router.put("/:id", authenticateToken, validateTask, updateTask);
+router.put(
+  "/:id",
+  authenticateToken,
+  validateTask(updateTaskSchema),
+  updateTask
+);
 router.delete("/:id", authenticateToken, deleteTask);
 
 module.exports = router;
