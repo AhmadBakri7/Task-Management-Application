@@ -22,6 +22,29 @@ const taskSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
+  invitedUsers: {
+    type: [String], // ? Array of email addresses that have access to this task
+    default: [],
+  },
+  comments: [
+    {
+      text: String,
+      author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+  images: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "File",
+    },
+  ],
 });
 
 const Task = mongoose.model("Task", taskSchema);
